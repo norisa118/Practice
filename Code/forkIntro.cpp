@@ -22,13 +22,21 @@ public:
 
 int main() {
 	myClass classInst;
-	pid_t pid = getpid();
-	//printf("pid: %lun", pid);
-	cout << "PID: " << pid << endl; 
+	int pid2 = fork();
+	if (pid2 == -1) {
+		cout << "error" << endl; 
+	}
+	else if (pid2 > 0) {
+		// we are in the parent process
+		cout << "Parent PID: " << getpid() << endl;
+	}
+	else {
+		// PID = 0 means we are in the child process 
+		cout << "Child PID: " << getpid() << endl;
+	}
+
 	classInst.print_Nums(); 
-	//children create:
-	//int pid2 = fork();
-	//int pid3 = fork();
+
 	return 0;
 }
 
