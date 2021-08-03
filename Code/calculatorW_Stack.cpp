@@ -56,11 +56,12 @@ public:
 					//We get 6. Push 6 to the operands stack.
 
 					//compare precedence of the operators: 
-					if (priObj.pri < operators.top().pri) {
+					if (priObj.pri > operators.top().pri) {    // GREATER number is LESSER priority ** 
 						//current operator is less priority than current top
 						send = operators.top().op;
 						operators.pop(); 
-						char insert = calculate(send);
+						//cout << "SEND: " << send << endl; 
+						char insert = '0' + calculate(send);
 						numbers.push(insert);
 					}
 				}
@@ -87,8 +88,9 @@ public:
 	
 
 	int calculate(char char_in) {
-	
+		//cout << "COMING TO CALCULATE REE " << endl;
 		int calcAns = numbers.top() - '0';
+		//cout << " CALC ANS IS: " << calcAns << endl; 
 		numbers.pop();
 		int secNum = 0;
 
@@ -102,8 +104,11 @@ public:
 
 		}
 		else if (char_in == '*') {
+			//cout << "Coming to right spot" << endl; 
 			secNum = numbers.top() - '0';
+			//cout << "SECNUM: " << secNum << endl;
 			calcAns = calcAns * secNum;
+			//cout << "FINAL ANS: " << calcAns << endl;
 
 		}
 		else if (char_in == '/') {
