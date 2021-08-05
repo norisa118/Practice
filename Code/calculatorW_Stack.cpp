@@ -30,9 +30,13 @@ public:
 			priObj.op = 'x';
 			priObj.pri = -1;
 
-			if (calcThis[i] == '(' || calcThis[i] == ')') {
+			if (calcThis[i] == ')') {
 				priObj.op = calcThis[i];
 				priObj.pri = 1;
+			}
+			else if (calcThis[i] == '(' ){ // LEAST PRIORITY -- CHANGED  2
+				priObj.op = calcThis[i];
+				priObj.pri = 4;
 			}
 			else if (calcThis[i] == '*' || calcThis[i] == '/') {
 				priObj.op = calcThis[i];
@@ -48,6 +52,7 @@ public:
 
 			char send = ' '; 
 			if (!(priObj.op == 'x')) {
+
 				if(operators.empty()) operators.push(priObj);
 				else {
 					// We compare the precedence of the operators, the × is prior than +. 
@@ -57,22 +62,37 @@ public:
 
 					//compare precedence of the operators: 
 					if (priObj.pri > operators.top().pri) {    // GREATER number is LESSER priority ** 
+						// CHANGED 2: if (priObj.pri == 4) operators.push(priObj); 
 						//current operator is less priority than current top
-						send = operators.top().op;
-						// CHANGED: operators.pop(); 
-						//cout << "SEND: " << send << endl; 
-						char insert = '0' + calculate(send);
-						numbers.push(insert);
+						if (priObj.pri != 4) {
+							send = operators.top().op;
+							char insert = '0' + calculate(send);
+							numbers.push(insert);
+						}
+						// OPERATOR + IS NEVER PUSHED IN I BELIEVE !!!
+						// CHANGED 3: 
+						operators.push(priObj); 
 					}
 					else {
+						if (priObj.pri == 1) {
+							
+							while (operators.top().op != '(') {
+								send = operators.top().op;
+								char insert = '0' + calculate(send);
+								numbers.push(insert);
+							}
+							operators.pop(); //popping out the ( 
+						}
 						//Then comes to (. We find that the ( is prior to +, so we push ( to the stack.
-						operators.push(priObj);
+						if(!(priObj.pri == 1) && !(priObj.pri == 4))operators.push(priObj); // WHY DID I DO THIS/?
+						//if(!priObj.pri == 1 && !priObj.pri == 4) operators.push(priObj);
 					}
 				}
 			}
 
 			if(!numbers.empty()) cout << "NUMBER ON TOP: " << numbers.top() << endl; 
 			if (!operators.empty()) cout << "OP ON TOP: " << operators.top().op << endl;
+			// END OF FOR
 		}
 
 		// MISSING STEP: 
@@ -124,16 +144,12 @@ public:
 			cout << "FINAL ANS: " << calcAns << endl;
 
 		}
-		else if (char_in == '/') {
+		else {
 			secNum = numbers.top() - '0';
 			cout << "NUM 2: " << secNum << endl;
 			calcAns = secNum / calcAns;
 			cout << "FINAL ANS: " << calcAns << endl;
 
-		}
-		else {
-			// () NOT TAKEN CARE OF HERE !!!!!11
-			cout << "PARENTHESES" << endl; 
 		}
 
 		//Pop secNum out: 
@@ -141,6 +157,8 @@ public:
 		operators.pop(); 
 		return calcAns;
 	}
+
+
 };
 
 
