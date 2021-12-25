@@ -25,9 +25,12 @@ int knapsack(int* weights, int* vals, int w_remaining, int n){
      if(w_remaining - weights[n-1] >= 0){
         //PICKING IT: 
         opt_Val_1 = vals[n-1] + knapsack(weights, vals,  w_remaining - weights[n-1], n-1);
+        opt_Val_2 = knapsack(weights, vals, w_remaining, n-1);
+        return dpTbl[w_remaining][n] = max(opt_Val_1, opt_Val_2);
+    } else{
+        return dpTbl[w_remaining][n]= knapsack(weights, vals, w_remaining, n-1);
     }
 
-    opt_Val_2 = knapsack(weights, vals, w_remaining, n-1);
 
     dpTbl[w_remaining][n] = max(opt_Val_1, opt_Val_2);  // 1. Insead of returning, store the value in dpTbl
     return dpTbl[w_remaining][n]; // 2. Return what you just stored in dpTbl form

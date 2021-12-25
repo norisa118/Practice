@@ -13,10 +13,12 @@ int knapsack(int* weights, int* vals, int w_remaining, int n){
      if(w_remaining - weights[n-1] >= 0){
         //PICKING IT: 
         opt_Val_1 = vals[n-1] + knapsack(weights, vals,  w_remaining - weights[n-1], n-1);
+        opt_Val_2 = knapsack(weights, vals, w_remaining, n-1);
+        return max(opt_Val_1, opt_Val_2);
+    } else{
+        return knapsack(weights, vals, w_remaining, n-1);
     }
 
-    opt_Val_2 = knapsack(weights, vals, w_remaining, n-1);
-    return max(opt_Val_1, opt_Val_2); 
 
 }
 

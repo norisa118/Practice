@@ -1,0 +1,81 @@
+Binary Search Algorithm: 
+KEYWORDS: Find, Sorted --> We can always sort an array --> Time complexity to sort an array is nlog(n)
+
+For sorted arrays: 
+QUESTION TYPES: 
+	1) Find an elem that is present in the arr 
+	2) What index would this elem go in IF it were present in the array? 
+	3) Is the elem present or not in the array? 
+	4) If an elem is repeated, find the first and last index of that element (upper and lower bound, ciel and floor) 
+	5) Rotated Array (Where does the rotation start/end, how many times is it rotated?) 
+	6) Is it sorted ascending/descending order? 
+	7) Scheduling (Job, Train) 
+	8) Kind of a greedy in relation to above scheduling problems
+
+
+Assumptions:
+Assume Ascending from Now
+int start points to start of array 
+int end points to end of array (not a pointer, but an index)
+
+How to Calculate Mid (NEVER CHANGE THIS): 
+mid = start + ((end - start)/2);
+
+General Algorithm:
+
+while(start <= end){
+	//calc mid here
+	if(arr[mid] == elem u are trying to fin){
+		return answer;
+	}
+	
+	// now do we need to go right or left:
+	if(elem u are trying to find > arr[mid] ){
+		// we need to move to the right: 
+		start = mid + 1; 
+	} else {
+		// we need to move to the left: 
+		end = mid - 1; 
+
+	}
+	
+} // end of while 
+
+// if you found the elem, then at this point, mid is pointing to the element and end has passed start. End will be pointing to the floor, start will be pointing to ciel
+
+Question Type 4:
+Let's say we are trying to find the floor and ciel of "target". The target is the repeated elem.
+
+int result = 0; // THIS IS THE CHANGE, we're going to store the mid
+while(start <= end){
+	//calc mid here
+	if(arr[mid] == target){
+		res = mid; 
+		end = mid-1; // or start = mid + 1 if we want to search the right subarray (for the ciel) --> If we want floor and ciel, we have to call 2 functions, this being the 1st 
+	}
+	
+	// now do we need to go right or left:
+	if(target > arr[mid] ){
+		// we need to move to the right: 
+		start = mid + 1; 
+	} else {
+		// we need to move to the left: 
+		end = mid - 1; 
+
+	}
+	
+} // end of while 
+
+return result; // REMEMBER THIS !
+
+
+Question Type 5: 
+Find how many times a rotated array is rotated: 
+ARRAY CASE: 6, 7, 8, 1, 2, 3, 4, 5
+Goes up, then sharply, then up again. We need to find the inflection point: 
+	// the condition that changes: if( right elem > mid and left > mid) then we know that this is the index where the sharp change occurs. 
+	// This index is the number of times that the array is rotated (ASSUMING ARRAY STARTS FROM INDEX 0!!!) 
+
+
+
+
